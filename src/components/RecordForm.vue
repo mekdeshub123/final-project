@@ -9,6 +9,13 @@
         <div class="alert alert-danger" v-show="errors && errors.length > 0">
             <li v-for="error in errors" v-bind:key="error">{{ error }}  </li>
         </div>
+
+        <div class="form-group">
+          <label class="form-label" for="subject">What class?</label>
+          <select class="form-control" v-model="subject">
+              <option v-for="subject in subjects" v-bind:value="subject" v-bind:key="subject">{{ subject }}</option>
+          </select>
+        </div>
                   
         <div class="form-group">
             <!-- TODO change label message to include name of activity -->
@@ -19,13 +26,6 @@
         <div class="form-group">
           <label class="form-label" for="howLong">How long were doing this?</label>
           <input id="howLong" class="form-control" v-model.number.lazy="howLong">
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" for="subject">What class?</label>
-          <select class="form-control" v-model="subject">
-              <option v-for="subject in subjects" v-bind:value="subject" v-bind:key="subject">{{ subject }}</option>
-          </select>
         </div>
 
         <div>
@@ -41,15 +41,17 @@
  
 <script>
 export default {
-  name: 'UpdateForm',
+  name: 'RecordForm',
   data() {
     return {
       when: '',
       howLong: '',
+      subject: '',
       subjects: [
         'math', 'drawing', 'programming'
       ],
-      errors: []
+      errors: [],
+      record: []
     }
   },
   methods: {
@@ -66,16 +68,13 @@ export default {
         }
         if (this.errors.length == 0) 
         {
-            let record = {
-                when: this.whenLocal,
-                howLong: this.howLong,
-                subject: this.subject,
-                location: this.location
-            }
-            this.activityRecords.push(record)
-            this.activityRecords.sort(function (r1, r2) {
-                return r1.when.getTime() - r2.when.getTime()
-            })
+          let record = {
+              when: this.whenLocal,
+              howLong: this.howLong,
+              subject: this.subject
+          }
+          alert(record)
+          return record
         }
     }
   },
@@ -87,27 +86,8 @@ export default {
         let timestamp = date.getTime() + (date.getTimezoneOffset() * 60 * 1000)
         let localDate = new Date(timestamp)
         return localDate
-      },
-      totalHours() {
-        let total = 0
-        if (this.activityRecords.length > 0){
-            total = this.activityRecords.reduce(function (hoursAccumulator, currentRecord) {
-                return hoursAccumulator + currentRecord.howLong
-            }, 0)
-        }
-        return total
-      },
-      totalHoursBySubject() {
-        let hoursBySubject = {}
-        this.subjects.forEach(subject => {
-            let totalForSubject = this.activityRecords
-                .filter(function (record) { return record.subject === subject})
-                .reduce(function (accumulator, current) {return accumulator + current.howLong }, 0)
-            hoursBySubject[subject] = totalForSubject
-        })
-        return hoursBySubject
       }
-    },
+    }
 }
 </script> 
 

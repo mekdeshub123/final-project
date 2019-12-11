@@ -5,24 +5,22 @@
       <img src="./assets/track-logo.png">
       
       <router-link to="/">Update</router-link>
-      <router-link to="/RecordForm">Record</router-link>
+      <router-link to="/RecordTable">Record</router-link>
     </nav>
     <router-view />
-  <RecordForm></RecordForm>
-  <RecordTable></RecordTable>
+  <!-- <RecordForm></RecordForm>
+  <RecordTable></RecordTable> -->
 
   </div>
 </template>
 
 <script>
-import RecordForm from './components/RecordForm'
-import RecordTable from './components/RecordTable'
+//import RecordForm from './components/RecordForm'
+//import RecordTable from './components/RecordTable'
 
 export default {
   name: 'app',
   components: {
-    RecordForm,
-    RecordTable
   }
 }
 </script>
